@@ -9,8 +9,6 @@ from kb_layouter.criteria.lang import (
     LtPlanckClumsynessCriterion,
     EnPlanckClumsynessCriterion,
     TirednessCriterion,
-    LtAlternationCriterion,
-    EnAlternationCriterion,
 )
 from kb_layouter.criteria.shortcuts import ColemakLikeShortcutsCriterion
 from kb_layouter.criteria.similarity import Qwertyness
@@ -33,8 +31,6 @@ def create_suite():
             # TirednessCriterion,
             # Qwertyness,
             Biased,
-            # LtAlternationCriterion,
-            # EnAlternationCriterion,
             # Vowels,
         ],
         weights=[

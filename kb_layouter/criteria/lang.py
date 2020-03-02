@@ -74,7 +74,7 @@ class StretchCriterion(StrainCriterion):
         if self._maximum is None:
             strains = sorted(map(self.hands.stretch, product(self.hands.keys, self.hands.keys)))
             freqs = [0] * (len(strains) - len(self.freqs)) + sorted(self.freqs.values())
-            self._maximum = sum(s * f for s, f in zip(strains, freqs))
+            self._maximum = min(F, sum(s * f for s, f in zip(strains, freqs)))
         return self._maximum
 
 
@@ -84,43 +84,6 @@ class LtStretchCriterion(StretchCriterion):
 
 
 class EnStretchCriterion(StretchCriterion):
-    lang = 'en'
-    name = 'EN - 2gram'
-
-
-class AlternationCriterion(StretchCriterion):
-
-    def penalties(self, keycaps):
-        result = {}
-        for gram, freq in self.freqs.items():
-            result[gram] = freq * (
-                C
-                if
-                    self.hands.hand(keycaps.get_key(gram[0])) == self.hands.hand(keycaps.get_key(gram[1]))
-                else
-                    A
-            )
-        return result
-
-    @property
-    def minimum(self):
-        if self._minimum is None:
-            self._minimum = sum(self.freqs.values()) * A
-        return self._minimum
-
-    @property
-    def maximum(self):
-        if self._maximum is None:
-            self._maximum = sum(self.freqs.values()) * C
-        return self._maximum
-
-
-class LtAlternationCriterion(AlternationCriterion):
-    lang = 'lt'
-    name = 'LT - 2gram'
-
-
-class EnAlternationCriterion(AlternationCriterion):
     lang = 'en'
     name = 'EN - 2gram'
 
@@ -148,15 +111,15 @@ class PlanckClumsynessCriterion(StrainCriterion):
             return E
         if self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c):
             if a.col == b.col and c.col in (a.col - 1, a.col + 1) and a.row != b.row:
-                if b.col in (2, 7) and a.row > b.row:
-                    return E
-                if b.col in (3, 4, 5, 6):
+                if b.col in (2, 3, 4, 5, 6, 7):
+                    if (self.down(a, b) and self.outwards(b, c)) or self.up(a, b) and self.inwards(b, c):
+                        return C
                     return E
                 return X
             if b.col == c.col and a.col in (b.col - 1, b.col + 1) and b.row != c.row:
-                if b.col in (2, 7) and c.row > b.row:
-                    return E
-                if b.col in (3, 4, 5, 6):
+                if b.col in (2, 3, 4, 5, 6, 7):
+                    if (self.down(b, c) and self.outwards(a, b)) or (self.up(b, c) and self.inwards(a, b)):
+                        return C
                     return E
                 return X
         if self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c) == LEFT:
@@ -174,9 +137,25 @@ class PlanckClumsynessCriterion(StrainCriterion):
             if a.col == c.col > b.col and a.row <= b.row >= c.row and b.col < 7:
                 return A
         if self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c):
-            return D
+            return B
 
-        return C
+        return  # all cases should be covered
+
+    def up(self, a, b):
+        return a.row > b.row
+
+    def down(self, a, b):
+        return a.row < b.row
+
+    def inwards(self, a, b):
+        if self.hands.hand(a) != self.hands.hand(b):
+            return False
+        return (a.col < b.col) == (self.hands.hand(a) == LEFT)
+    
+    def outwards(self, a, b):
+        if self.hands.hand(a) != self.hands.hand(b):
+            return False
+        return (a.col > b.col) == (self.hands.hand(a) == LEFT)
 
     def penalties(self, keycaps):
         result = {}
@@ -193,7 +172,7 @@ class PlanckClumsynessCriterion(StrainCriterion):
         if self._minimum is None:
             strains = sorted(map(self.penalty, product(self.hands.keys, self.hands.keys, self.hands.keys)))
             freqs = sorted(self.freqs.values(), reverse=True) + [0] * (len(strains) - len(self.freqs))
-            self._minimum = sum(s * f for s, f in zip(strains, freqs))
+            self._minimum = max(A, sum(s * f for s, f in zip(strains, freqs)))
         return self._minimum
 
     @property
@@ -201,7 +180,7 @@ class PlanckClumsynessCriterion(StrainCriterion):
         if self._maximum is None:
             strains = sorted(map(self.penalty, product(self.hands.keys, self.hands.keys, self.hands.keys)))
             freqs = [0] * (len(strains) - len(self.freqs)) + sorted(self.freqs.values())
-            self._maximum = sum(s * f for s, f in zip(strains, freqs))
+            self._maximum = min(E, sum(s * f for s, f in zip(strains, freqs)))
         return self._maximum
 
 class LtPlanckClumsynessCriterion(PlanckClumsynessCriterion):

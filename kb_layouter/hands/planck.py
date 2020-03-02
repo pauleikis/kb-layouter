@@ -13,8 +13,8 @@ def generate_planck():
 
     strains = [
         ['F', 'B', 'A', 'D', 'E', 'E', 'D', 'A', 'B'],
-        ['C', 'A', 'S', 'S', 'C', 'C', 'S', 'S', 'A', 'C'],
-        ['D', 'E', 'B', 'A', 'D', 'D', 'A'],
+        ['B', 'A', 'S', 'S', 'C', 'C', 'S', 'S', 'A', 'B'],
+        ['C', 'D', 'B', 'A', 'D', 'D', 'A'],
     ]
     for r, row in enumerate(strains):
         for c, rating in enumerate(row):
@@ -50,25 +50,25 @@ def generate_planck():
         ],
         [
             C, B, A, C, C,
-            B, D, F, E, B,
-            E, F, F, F, D,
+            B, D, F, D, B,
+            E, F, F, E, D,
         ],
         [
-            C, D, C, A, E,
-            C, D, E, F, F,
+            C, C, C, B, E,
+            C, C, E, F, F,
             D, E, X, X, F,
         ],
 
 
         [
             X, E, B, B, B,
-            F, E, D, S, S,
+            F, D, C, S, S,
             X, F, E, A, A,
         ],
         [
-            F, F, D, C, F,
-            F, D, B, S, E,
-            E, F, E, A, D,
+            F, F, D, B, F,
+            D, D, B, S, E,
+            D, F, E, A, D,
         ],
         [
             F, A, E, B, F,
@@ -76,14 +76,14 @@ def generate_planck():
             E, F, F, S, F,
         ],
         [
-            C, C, S, E, F,
+            C, C, S, D, F,
             B, B, S, B, B,
-            E, E, C, E, B,
+            E, E, D, D, B,
         ],
         [
-            D, E, D, A, F,
-            B, D, C, A, D,
-            C, E, F, D, F,
+            D, E, E, B, F,
+            B, D, D, B, D,
+            C, E, F, E, F,
         ],
 
 
@@ -98,19 +98,19 @@ def generate_planck():
             E, F, C, A, D,
         ],
         [
-            F, F, E, F, F,
-            F, E, D, D, F,
-            E, D, E, A, E,
+            F, E, F, E, F,
+            F, D, E, C, F,
+            C, C, E, A, E,
         ],
         [
-            E, D, C, F, F,
-            D, C, S, E, E,
+            E, D, C, E, F,
+            D, C, S, D, E,
             C, B, S, B, C,
         ],
         [
-            E, E, F, C, F,
-            E, E, D, B, F,
-            D, D, E, B, D,
+            E, E, F, D, F,
+            E, E, D, C, F,
+            D, D, E, C, D,
         ],
     ]
 

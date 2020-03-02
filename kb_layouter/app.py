@@ -24,7 +24,7 @@ if __name__ == "__main__":
     mask = None
     # mask = "X◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆"
     # mask = "X◆◆◆BQ◆◆◆" "O◆◆AJW◆◆◆◆" "ZCV◆GY◆"
-    mask = "◆◆◆H◆◆W◆◆" "◆◆◆A◆◆I◆◆◆" "◆◆◆O◆◆U"
+    mask = "◆◆◆◆◆◆◆◆◆" "V◆◆A◆◆I◆◆◆" "C◆◆O◆◆U"
     caps = []
     # caps = [Keycaps(keyboard, "planck:XDNGWQYMURTSABHOLEPZCVKFJI", mask=mask)]
     # caps = [Keycaps(keyboard, "planck:XDNJWQYKPRMSABGOLIUZCVTFHE", mask=mask)]
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # print(suite.summary(keycaps, detailed=False))
 
 
-    for i in range(3):
+    for i in range(10):
         p = Population(
             suite.evaluate,
             Keycaps.randomizer(keyboard, mask=mask),

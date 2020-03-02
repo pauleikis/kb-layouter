@@ -16,26 +16,28 @@ class Biased(Criterion):
         return {l: self.penalty(k, l) for k, l in keycaps.items()}
 
     def penalty(self, key, letter):
-        if letter in "QXZCBJ" and key in (
-            Key(0, 0),
-            Key(0, 4),
-            Key(0, 5),
-            Key(2, 0),
-            Key(2, 1),
-            Key(2, 2),
-        ):
-            return S
-        if letter in "KPVYFG" and key in (
-            Key(1, 4),
-            Key(1, 5),
-            Key(2, 4),
-            Key(2, 5),
-            Key(1, 0),
-            Key(1, 9),
-        ):
-            return S
+        # if letter in "QXZCBJ" and key in (
+        #     Key(0, 0),
+        #     Key(0, 4),
+        #     Key(0, 5),
+        #     Key(2, 0),
+        #     Key(2, 1),
+        #     Key(2, 2),
+        # ):
+        #     return S
+        # if letter in "KPVYFG" and key in (
+        #     Key(1, 4),
+        #     Key(1, 5),
+        #     Key(2, 4),
+        #     Key(2, 5),
+        #     Key(1, 0),
+        #     Key(1, 9),
+        # ):
+        #     return S
         # if letter in "FP" and key in (Key(0, 3), Key(0, 6)):
         #     return S
+        if letter in 'W' and key in (Key(0, 0), ):
+            return F
         if letter in "IAEOTSNU" and key in (
             Key(1, 1),
             Key(1, 2),
@@ -47,13 +49,24 @@ class Biased(Criterion):
             Key(1, 8),
         ):
             return S
-        if letter in "RLHMDW" and key in (
-            Key(0, 1),
-            Key(0, 2),
-            Key(0, 7),
-            Key(0, 8),
-            Key(0, 3),
-            Key(0, 6),
+        # if letter in "RLHMDW" and key in (
+        #     Key(0, 1),
+        #     Key(0, 2),
+        #     Key(0, 7),
+        #     Key(0, 8),
+        #     Key(0, 3),
+        #     Key(0, 6),
+        # ):
+        #     return S
+        if key not in (
+            Key(1, 1),
+            Key(1, 2),
+            Key(1, 3),
+            Key(2, 3),
+            Key(2, 6),
+            Key(1, 6),
+            Key(1, 7),
+            Key(1, 8),
         ):
             return S
         return F
