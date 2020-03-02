@@ -1,0 +1,4 @@
+/*.txt*
+.*
+!.gitignore
+__pycache__/
