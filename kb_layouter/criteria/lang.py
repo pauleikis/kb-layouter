@@ -1,5 +1,6 @@
 import string
 from itertools import product
+from functools import lru_cache
 
 from kb_layouter.criteria import Criterion
 from kb_layouter.config import PATH_TO_DATA, S, A, B, C, D, E, F, X, LEFT, RIGHT, ALPHA
@@ -39,7 +40,7 @@ class StrainCriterion(Criterion):
             if all(l in self.valid_chars for l in gram):
                 freqs[gram] = float(freq)
         denominator = sum(freqs.values())  # normalizing sum to be equal to 1
-        self.freqs = {k: v / denominator for k, v in freqs.items() if v / denominator > 0.0001}
+        self.freqs = {k: (v / denominator) ** .7 for k, v in freqs.items() if v / denominator > 0.00001}
 
 
 class LtStrainCriterion(StrainCriterion):
@@ -77,7 +78,6 @@ class StretchCriterion(StrainCriterion):
             self._maximum = min(F, sum(s * f for s, f in zip(strains, freqs)))
         return self._maximum
 
-
 class LtStretchCriterion(StretchCriterion):
     lang = 'lt'
     name = 'LT - 2gram'
@@ -95,20 +95,21 @@ class PlanckClumsynessCriterion(StrainCriterion):
         super().__init__(hands)
         # the implementation bases some decisions on 3x10 letter layout
         # until general solution is implemented, this can work only on planck keyb
-        assert self.hands.keyboard.name == 'planck'
+        assert self.hands.keyboard.name in ('planck', 'ansi'), self.hands.keyboard.name
 
+    @lru_cache(None)
     def penalty(self, keys):
         a, b, c = keys
         if self.hands.hand(a) != self.hands.hand(b) != self.hands.hand(c):
             return self.hands.stretch((a, c)) / ALPHA ** 2
         if self.hands.hand(a) != self.hands.hand(b) or self.hands.hand(b) != self.hands.hand(c):
-            return B
-        if a == b or b == c or c == a:
-            return C
+            return S
         if a.col == b.col == c.col and a.row != b.row != c.row != a.row:
             return X
         if a.col == b.col == c.col and (a.row != b.row or b.row != c.row):
             return E
+        if a == b or b == c or c == a:
+            return C
         if self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c):
             if a.col == b.col and c.col in (a.col - 1, a.col + 1) and a.row != b.row:
                 if b.col in (2, 3, 4, 5, 6, 7):
@@ -122,22 +123,29 @@ class PlanckClumsynessCriterion(StrainCriterion):
                         return C
                     return E
                 return X
+            if b.col in (1, 2, 3, 6, 7, 8):
+                if a.col in (0, 9) and c.col in (4, 5):
+                    return E
+                if c.col in (0, 9) and a.col in (4, 5):
+                    return E
         if self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c) == LEFT:
             if a.col < b.col < c.col and a.row >= b.row <= c.row:
                 return S
             if a.col > b.col > c.col and a.row >= b.row <= c.row:
-                return A
+                return B
             if a.col == c.col < b.col and a.row <= b.row >= c.row and b.col > 2:
-                return A
+                return B
         elif self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c) == RIGHT:
             if a.col > b.col > c.col and a.row >= b.row <= c.row:
                 return S
             if a.col < b.col < c.col and a.row >= b.row <= c.row:
-                return A
+                return B
             if a.col == c.col > b.col and a.row <= b.row >= c.row and b.col < 7:
-                return A
+                return B
         if self.hands.hand(a) == self.hands.hand(b) == self.hands.hand(c):
-            return B
+            if (a.col == b.col or b.col == c.col) and b.col in (4, 5):
+                return X
+            return F
 
         return  # all cases should be covered
 
@@ -151,7 +159,7 @@ class PlanckClumsynessCriterion(StrainCriterion):
         if self.hands.hand(a) != self.hands.hand(b):
             return False
         return (a.col < b.col) == (self.hands.hand(a) == LEFT)
-    
+
     def outwards(self, a, b):
         if self.hands.hand(a) != self.hands.hand(b):
             return False
@@ -159,11 +167,12 @@ class PlanckClumsynessCriterion(StrainCriterion):
 
     def penalties(self, keycaps):
         result = {}
+        keys = keycaps._reverse_map
         for gram, freq in self.freqs.items():
             result[gram] = freq * self.penalty((
-                keycaps.get_key(gram[0]),
-                keycaps.get_key(gram[1]),
-                keycaps.get_key(gram[2]),
+                keys[gram[0]],
+                keys[gram[1]],
+                keys[gram[2]],
             ))
         return result
 

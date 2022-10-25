@@ -99,7 +99,7 @@ def generate_planck():
         ],
         [
             F, E, F, E, F,
-            F, D, E, C, F,
+            E, D, E, C, F,
             C, C, E, A, E,
         ],
         [

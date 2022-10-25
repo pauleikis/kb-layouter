@@ -25,7 +25,7 @@ class Criterion:
 
     def adjust(self, value):
         minimum, maximum = self.minimum, self.maximum
-        assert minimum < maximum
+        assert minimum < maximum, f"{minimum} >= {maximum} for {self.__class__}"
         length = maximum - minimum
         return CRITERION_MIN + (CRITERION_MAX - CRITERION_MIN) * (value - minimum) / length
 

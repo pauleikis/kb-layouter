@@ -1,7 +1,7 @@
 ┌────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
-│TAB │TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│ [ │ ] │ \ │
+│TAB │TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│ ; │ [ │ ] │ \ │
 ├────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴───┤
-│ ESC │TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│ ; │ ' │  ⏎   │
+│ ESC │TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│TTT│ ' │  ⏎   │
 ├─────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴──────┤
 │   ⇧   │TTT│TTT│TTT│TTT│TTT│TTT│TTT│ , │ . │ / │    ⇧   │
 ├───┬───┼───┼───┼───┴───┴───┴───┴───┼───┴┬──┴┬──┴┬───┬───┤

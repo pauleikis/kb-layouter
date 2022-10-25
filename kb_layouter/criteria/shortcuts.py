@@ -19,11 +19,11 @@ class ColemakLikeShortcutsCriterion(ShortcutCriterion):
     name = 'COLEMAK shortcuts'
 
     def penalty(self, key, letter):
-        if letter in 'CV':
-            if key.col > 2:
+        if letter in 'CVZX':
+            if key.col > 3:
                 return X
             return S
-        if letter in 'AZ':
+        if letter in 'A':
             if key.col > 3:
                 return E
             return S
@@ -31,22 +31,22 @@ class ColemakLikeShortcutsCriterion(ShortcutCriterion):
             if key.col > 3:
                 return E
             return B
-        if letter in 'RFKTNEWBX':
+        if letter in 'RFKTNEWB':
             if key.col > 3:
                 return D
             return C
-        if letter in 'Q':
-            # I don't want to press cmd+q accidentally
-            # this is a deviation from COLEMAK philosophy
-            if self.hands.hand(key) == LEFT and (key.col != 4 or key.row != 0):
-                return E
-            return S
+        # if letter in 'Q':
+        #     # I don't want to press cmd+q accidentally
+        #     # this is a deviation from COLEMAK philosophy
+        #     if self.hands.hand(key) == LEFT and (key.col != 4 or key.row != 0):
+        #         return E
+        #     return S
         return None
 
     @property
     def minimum(self):
-        return S * 2 + S * 2 + B * 1 + C * 9 + S * 1
+        return S * 4 + S * 1 + B * 1 + C * 8 #+ S * 1
 
     @property
     def maximum(self):
-        return X * 2 + E * 2 + E * 1 + D * 9 + E * 1
+        return X * 4 + E * 1 + E * 1 + D * 8 #+ E * 1

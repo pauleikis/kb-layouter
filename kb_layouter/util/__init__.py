@@ -1,6 +1,6 @@
 from kb_layouter.criteria import Criterion, CriterionSuite
 from kb_layouter.hands import Hands
-from kb_layouter.keyboard import PLANCK
+from kb_layouter.keyboard import PLANCK, ANSI
 from kb_layouter.criteria.lang import (
     LtStrainCriterion,
     EnStrainCriterion,
@@ -15,8 +15,8 @@ from kb_layouter.criteria.similarity import Qwertyness
 from kb_layouter.criteria.restrictions import Biased, Vowels
 
 def create_suite():
-    keyboard = PLANCK
-    hands = Hands(keyboard, 'planck.psi')
+    keyboard = ANSI
+    hands = Hands(keyboard, 'ansi.psi')
 
     return CriterionSuite(
         hands,
@@ -27,23 +27,25 @@ def create_suite():
             EnStrainCriterion,
             EnStretchCriterion,
             EnPlanckClumsynessCriterion,
-            ColemakLikeShortcutsCriterion,
+            # ColemakLikeShortcutsCriterion,
             # TirednessCriterion,
             # Qwertyness,
-            Biased,
+            # Biased,
+            # Biased2,
             # Vowels,
         ],
         weights=[
-            1,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2.5,
-            # 2.5,
+            1.1,
+            1.9,
+            .95,
+            1.1,
+            1.9,
+            .95,
+            # 2,
+            # 2,
+            # 1.5,
+            # 2.2,
             # 1,
-            # 1,
+            # 1.7,
         ],
     )

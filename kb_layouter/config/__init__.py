@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # penalty adjustments
-ALPHA = 5
+ALPHA = 3
 _s, _m, _l, _xl = ALPHA, ALPHA ** 2, ALPHA ** 3, ALPHA ** 4
 
 S, A, B, C, D, E, F, X = 1 / _l, 1 / _m, 1 / _s, 1, _s, _m, _l, _xl
